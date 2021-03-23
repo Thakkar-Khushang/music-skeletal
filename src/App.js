@@ -1,6 +1,7 @@
-import logo from './logo.svg';
 import {Song} from './components/song';
-import {Search} from './components/search';
+import SearchList from './components/SearchList';
+import {SongList} from './components/songList';
+
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import './App.css';
 
@@ -10,8 +11,8 @@ function App() {
       <Router>
         <Switch>
           <Route path="/songs/:id" component={Song}></Route>
-          <Route path="/search" component={Search}></Route>
-          {/* <Route path="/list" component={Search}></Route> */}
+          <Route path="/search" component={SearchList}></Route>
+          <Route path="/" component={SongList}></Route>
         </Switch>
       </Router>
       

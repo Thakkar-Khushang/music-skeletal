@@ -1,0 +1,74 @@
+import SongCard from "../card";
+import {useState, useEffect} from 'react';
+import axios from 'axios';
+import { makeStyles } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import { Link } from "react-router-dom";
+import IconButton from '@material-ui/core/IconButton';
+import './card.css';
+import classnames from 'classnames';
+import SearchIcon from '@material-ui/icons/Search';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import Grid from '@material-ui/core/Grid';
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+  },
+  title: {
+    flexGrow: 1,
+  },
+}));
+
+export function SongList() {
+    const classes = useStyles();
+    let [responseData, setResponseData] = useState([{}]);
+    let [loading, setLoading] = useState(true);
+    useEffect(() => {
+        axios.get(`https://iste-musicapp.azurewebsites.net/api/songs`)
+        .then((response) => {
+            const responseData = response.data;
+            setResponseData(responseData);
+            setLoading(false)
+        },[responseData])
+        .catch(error => console.error(`Error:${error}`));
+    },[]);
+    if(loading){
+      return("Data is Loading");
+    }
+    return (
+       
+        <div className={classes.root}>
+            
+          <AppBar position="static">
+              <Toolbar className="navbar" disableGutters>
+              <IconButton aria-label="search" color="inherit" >
+                  <ArrowBackIcon  />
+              </IconButton>
+              <h3 id="home">
+                  Home
+              </h3>
+              <Link to={{pathname:`/search`}}>
+              <IconButton aria-label="search" color="inherit" >
+                  <SearchIcon  />
+              </IconButton>
+              </Link>
+              </Toolbar>
+          </AppBar>
+          <Grid
+              container
+              spacing={4}
+              className={classes.gridContainer}
+              justify="center">
+        {responseData.map((item) => {
+            return <SongCard {...item} key={item._id} /> 
+        }
+        )}
+        </Grid>
+        </div>
+      ) 
+    }
