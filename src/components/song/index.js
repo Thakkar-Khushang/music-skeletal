@@ -14,18 +14,27 @@ export function Song(props) {
     })
     .catch(error => console.error(`Error:${error}`));
   }, [])
-  
-  if(loading){
-    return("Data is Loading")
+  let CapWord = "";
+  if(!loading){
+    const Name = responseData.name;
+    CapWord = "";
+    const wordArr = Name.split(" ");
+    CapWord = wordArr.map((word) => { 
+      return word[0].toUpperCase() + word.substring(1); 
+    }).join(" ");
   }
+  if(loading){
+    return <img id="Loading" src="https://cdn.discordapp.com/attachments/808322477784694825/823870314835869716/giphy.gif" height="50px"/>
+  }
+  else{
     return ( 
       <>
       <img
         src={responseData.img_url}
         style={{ maxWidth: '300px', maxHeight: '300px', margin:"5em 0 0 0"}}
-        alt={responseData.name}
+        alt={CapWord}
       />
-      <h2>{responseData.name}</h2>
+      <h2>{CapWord}</h2>
       <h3>{responseData.artist}</h3>
       <audio id="song" controls autoplay>
         <source src={responseData.song_url} type="audio/mp3" />
@@ -33,4 +42,4 @@ export function Song(props) {
       <p id="demo"></p>
       </>
     )
-}
+}}

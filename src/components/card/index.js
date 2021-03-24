@@ -21,9 +21,18 @@ const useStyles = makeStyles((theme) => ({
   }));
   export default function SongCard(props) {
     const classes = useStyles();
+    const Name = props.name;
+    let CapWord = "";
+    const wordArr = Name.split(" ");
+    CapWord = wordArr.map((word) => { 
+      return word[0].toUpperCase() + word.substring(1); 
+    }).join(" ");
+
+    console.log(CapWord);
+
     return (   
         
-        <Grid item xs={6} style={ { display: "flex", justifyContent: "space-around"} }>
+        <Grid item xs={6} sm={4} md={3} style={ { display: "flex", justifyContent: "space-around"} }>
         
         <Card style={{backgroundColor: "black"}} className={classnames("card",classes.root)}>
         <Link to={{pathname:`/songs/${props._id}`}}>
@@ -38,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
            <Link to={{pathname:`/songs/${props._id}`}}>
             <CardContent >
               <Typography gutterBottom variant="h5" component="h2">
-              {props.name}
+              {CapWord}
               </Typography>
               <Typography variant="body2" color="textSecondary" component="p">
               {props.artist}

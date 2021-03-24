@@ -38,32 +38,32 @@ export function SongList() {
         .catch(error => console.error(`Error:${error}`));
     },[]);
     if(loading){
-      return("Data is Loading");
+      return  <img id="Loading" src="https://cdn.discordapp.com/attachments/808322477784694825/823870314835869716/giphy.gif" height="50px"/>
     }
+    else{
     return (
        
         <div className={classes.root}>
             
           <AppBar position="static">
-              <Toolbar className="navbar" disableGutters>
-              <IconButton aria-label="search" color="inherit" >
-                  <ArrowBackIcon  />
-              </IconButton>
+              <Toolbar  className="navbar" disableGutters>
+              <img src="https://i.pinimg.com/originals/dd/ca/b7/ddcab749bde82b971c58cc6e80c462e4.jpg" height="50px"></img>
               <h3 id="home">
                   Home
               </h3>
               <Link to={{pathname:`/search`}}>
-              <IconButton aria-label="search" color="inherit" >
+              <IconButton aria-label="search" color="inherit" style={{paddingRight:"30px"}}>
                   <SearchIcon  />
               </IconButton>
               </Link>
               </Toolbar>
           </AppBar>
           <Grid
+              
               container
               spacing={4}
               className={classes.gridContainer}
-              justify="center">
+              justify="flex-start">
         {responseData.map((item) => {
             return <SongCard {...item} key={item._id} /> 
         }
@@ -71,4 +71,4 @@ export function SongList() {
         </Grid>
         </div>
       ) 
-    }
+    }}

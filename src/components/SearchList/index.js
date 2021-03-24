@@ -82,9 +82,6 @@ export default function SearchList() {
         top4.push(responseData[i]);
       }
     }
-    // if(loading){
-    //   return("Data is Loading")
-    // }
   return (
     <div className={classes.grow}>
       <AppBar position="static" style={{backgroundColor:"black"}}>
@@ -110,7 +107,7 @@ export default function SearchList() {
           
         </Toolbar>
       </AppBar>
-      {query !== ''
+      {query !== '' && responseData.length !== 0
       ? <div><h1>Most Relevant</h1></div>
       : <></>
       }
