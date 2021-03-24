@@ -6,8 +6,20 @@ h3{
     color: rgb(88, 87, 87);
 }
 
-button{
+button {
+    background: transparent;
+    border: none;
+    outline: none;
+    margin: 0;
+    padding: 0;
+}
+
+.btn {
     color: white;
+}
+
+#playBtn {
+    display: none;
 }
 
 .music-player {
@@ -21,3 +33,4 @@ button{
     height: calc(100vh - 100vw);
     width: 100vw;
 }
+
