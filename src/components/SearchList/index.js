@@ -7,6 +7,7 @@ import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import IconButton from '@material-ui/core/IconButton';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import HOC from '../HOC';
 import SongCard from "../card";
 import Grid from '@material-ui/core/Grid';
 import "./search.css"
@@ -26,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   },
   search: {
     position: 'relative',
-    borderRadius: theme.shape.borderRadius,
+    borderRadius: 30,
     backgroundColor: fade(theme.palette.common.white, 0.15),
     '&:hover': {
       backgroundColor: fade(theme.palette.common.white, 0.25),
@@ -86,16 +87,14 @@ export default function SearchList() {
     <div className={classes.grow}>
       <AppBar position="static" style={{backgroundColor:"black"}}>
         <Toolbar>
-          <IconButton aria-label="search" color="inherit" >
-              <ArrowBackIcon  />
-          </IconButton>
+        <HOC/>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
-              <SearchIcon />
+                <SearchIcon />
             </div>
             <InputBase
               onChange={event => setQuery(event.target.value)}
-              placeholder="Search…"
+              placeholder="Search Songs"
               classes={{
                 root: classes.inputRoot,
                 input: classes.inputInput,
@@ -107,33 +106,41 @@ export default function SearchList() {
           
         </Toolbar>
       </AppBar>
-      {query !== '' && responseData.length !== 0
-      ? <div><h1>Most Relevant</h1></div>
-      : <></>
+      {query.trim()===''
+      ? <></>
+      : <div><h1>Most Relevant</h1></div>
       }
+      {loading===true
+      ? <img id="Loading" src="https://cdn.discordapp.com/attachments/808322477784694825/823870314835869716/giphy.gif" height="50px"/>
+      // : query !== '' && responseData.length !== 0
+        // ? <div><h1>Most Relevant</h1></div>
+        // : <></>
+      : responseData.length !== 0
+      ? <>
       <Grid
               container
               spacing={4}
               className={classes.gridContainer}
-              justify="center">
-        {loading === true
+              justify="flex-start">
+        {/* {loading === true
         ? <img id="Loading" src="https://cdn.discordapp.com/attachments/808322477784694825/823870314835869716/giphy.gif" height="50px"/>
         :       
         responseData.length === 0
             ? <img id="Find" src="https://cdn.discordapp.com/attachments/808322477784694825/823873449084583956/Group_1.png" width="300vw"/>
-            : 
-            responseData.length > 4 && query !== ''
+            :  */}
+            {responseData.length > 4 && query !== ''
             ? top4.map((item) => {
               return <SongCard {...item} key={item._id} /> 
-            })
-            :
-            responseData.map((item) => {
-            return <SongCard {...item} key={item._id} />
+              })
+            : responseData.map((item) => {
+              return <SongCard {...item} key={item._id} />
             }
         )
         }
         </Grid>
-    </div>
-    
+        </>
+        : <img id="Find" src="https://cdn.discordapp.com/attachments/808322477784694825/823873449084583956/Group_1.png" width="300vw"/>
+}</div>
+      
   );
             }
