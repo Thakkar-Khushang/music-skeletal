@@ -1,9 +1,23 @@
 h2{
     color: white;
 }
+
 h3{
     color: rgb(88, 87, 87);
 }
+
 button{
     color: white;
+}
+
+.music-player {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.player-text {
+    height: calc(100vh - 100vw);
+    width: 100vw;
 }

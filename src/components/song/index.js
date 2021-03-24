@@ -39,20 +39,22 @@ export function Song(props) {
   else{
     return ( 
       <div className="App">
-      <span style={{position:"fixed"}}><HOC/></span>
-      <img
-        id="cover"
-        src={responseData.img_url}
-        style={{ maxWidth: '300px', maxHeight: '300px', margin:"5em 0 0 0"}}
-        alt={CapWord}
-      />
-      
-      <h2>{CapWord}</h2>
-      <h3>{responseData.artist}</h3>
-      <audio id="song" controls autoPlay>
-        <source src={responseData.song_url} type="audio/mp3" />
-      </audio>
-      <p id="demo"></p>
+        <span style={{position:"fixed", left:"0"}}><HOC/></span>
+        <div class="music-player">
+          <img
+            src={responseData.img_url}
+            style={{ width: '100vw', height: '100vw', margin:"0 0 0 0", objectFit: 'contain'}}
+            alt={CapWord}
+          />
+        </div>
+        <div class="player-text">
+          <h2>{CapWord}</h2>
+          <h3>{responseData.artist}</h3>
+          <audio id="song" controls autoPlay>
+            <source src={responseData.song_url} type="audio/mp3" />
+          </audio>
+          <p id="demo"></p>
+        </div>
       </div>
     )
 }}
