@@ -1,14 +1,12 @@
 import React from "react";
 import axios from 'axios';
-import ColorThief from 'colorthief';
+import analyze from 'rgbaster';
 import colorContrast from 'color-contrast'
 import HOC from '../HOC';
 import "./music.css";
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import PauseIcon from '@material-ui/icons/Pause';
-import { Pause } from "@material-ui/icons";
 export function Song(props) {
-  let payload = []
   let [playing, setPlaying] = React.useState(true);
   function togglePlay() {
     let audio = document.getElementById("song");
@@ -39,6 +37,7 @@ export function Song(props) {
     .catch(error => console.error(`Error:${error}`));
 
   }, [])
+  
 
   let CapWord = "";
   if(!loading){
@@ -48,6 +47,27 @@ export function Song(props) {
     CapWord = wordArr.map((word) => { 
       return word[0].toUpperCase() + word.substring(1); 
     }).join(" ");
+
+    var img = document.createElement('img');
+    img.setAttribute('src',responseData.img_url);
+    const x = async () => {
+      const results = await analyze(img)
+      let primary = results[0].color
+      let secondary
+      for (let i = 1; i < results.length; i++) {
+        secondary = results[i].color
+        if (colorContrast(primary, secondary) >= 7) {
+          break
+        }
+      }
+      setColors({
+        primary,
+        secondary,
+      })
+
+      // setTertiaryColor(result[2].color)
+    }
+    x()
   }
 
   if(loading){
