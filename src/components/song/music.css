@@ -31,7 +31,7 @@ button {
 
 .player-text {
     margin: 0;
-    padding-top: 120px;
+    /* padding-top: 120px; */
     height: calc(100vh - 100vw);
     width: 100vw;
 }
