@@ -8,30 +8,28 @@ import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import PauseIcon from '@material-ui/icons/Pause';
 import { Pause } from "@material-ui/icons";
 import WaveSurfer from 'wavesurfer.js';
+import useSound from 'use-sound';
 
 export function Song(props) {
   let payload = []
-  let [playing, setPlaying] = React.useState(true);
+  let [playing, setPlaying] = React.useState(false);
   const [dom, setDom] = React.useState('');
   const [cont, setCont] = React.useState('');
-
-  function togglePlay() {
-    let audio = document.getElementById("song");
-    if (playing) {
-      document.getElementById("playBtn").style.display = "inline";
-      document.getElementById("pauseBtn").style.display = "none";
-      audio.pause();
-    } else {
-      document.getElementById("playBtn").style.display = "none";
-      document.getElementById("pauseBtn").style.display = "inline";
-      audio.play();
-    }
-    setPlaying(!playing);
-  }
   
+  function togglePlay() {
+    if (playing) {
+      stop();
+    } else {
+      play();
+    }
+        
+      setPlaying(!playing);
+  }
+        
   let [responseData, setResponseData] = React.useState({});
   const [loading, setLoading] = React.useState(true);
-  
+  const [play, {stop}] = useSound(responseData.song_url);
+        
   React.useEffect(() => {
     // const {id} = props.match.url;
     axios.get(`https://iste-musicapp.azurewebsites.net/api${props.match.url}`)
@@ -44,26 +42,25 @@ export function Song(props) {
     
   }, [])
   
-  const fetchColors = async () => {
-    const results = await analyze('https://ia801908.us.archive.org/4/items/mbid-31cecd61-fac6-4632-b1d0-4c71cee49ea8/mbid-31cecd61-fac6-4632-b1d0-4c71cee49ea8-26741963134.jpg', {ignore: ['rgb(255,255,255)', 'rgb(0,0,0)']});
-
-    let dom = results[2].color;
-
-    for(let i = 1; i < results.length; i++) {
-      let contrast = results[i].color;
-      if(colorContrast(dom, contrast) >= 4.5) {
-        setCont(contrast);
-        break;
-      }
-    }
-
-    console.log(`The dominant color is ${dom} and it's contrast is ${cont}`);
-  }
-
-  fetchColors();
   
   let CapWord = "";
   if(!loading){
+    const fetchColors = async () => {
+      const results = await analyze(responseData.img_url, {ignore: ['rgb(255, 255, 255)', 'rgb(0,0,0)']});
+  
+      let dom = results[0].color;
+      let white = '#ffffff'
+  
+      for(let i = 1; i < results.length; i++) {
+        let contrast = results[i].color;
+        if(colorContrast(white, contrast) >= 4.5) {
+          setCont(contrast);
+          break;
+        }
+      }
+    }
+  
+    fetchColors();
     const Name = responseData.name;
     CapWord = "";
     const wordArr = Name.split(" ");
@@ -87,15 +84,15 @@ export function Song(props) {
           />
         </div>
         <div className="player-text" style={{backgroundColor: cont}}>
-          <h2 style={{color: dom}}>{CapWord}</h2>
-          <h3 style={{color: dom}}>{responseData.artist}</h3>
-          <button onClick={togglePlay}>
-            <PlayArrowIcon fontSize="large" className="btn" id="playBtn" />
-            <PauseIcon fontSize="large" className="btn" id="pauseBtn" />
+          <h2>{CapWord}</h2>
+          <h3>{responseData.artist}</h3>
+          <button onClick={togglePlay}>{playing 
+          ? <PauseIcon fontSize="large" className="btn" />
+          : <PlayArrowIcon fontSize="large" className="btn" />}
           </button>
-          <audio id="song" autoPlay>
+          {/* <audio id="song" autoPlay>
             <source src={responseData.song_url} type="audio/mp3" />
-          </audio>
+          </audio> */}
           <p id="demo"></p>
         </div>
       </div>
