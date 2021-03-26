@@ -9,22 +9,19 @@ import PauseIcon from '@material-ui/icons/Pause';
 import { Pause } from "@material-ui/icons";
 import WaveSurfer from 'wavesurfer.js';
 import useSound from 'use-sound';
+import { waitForDomChange } from "@testing-library/dom";
 
 export function Song(props) {
   let payload = []
   let [playing, setPlaying] = React.useState(false);
-export function Song(props) {
-
-  let [playing, setPlaying] = React.useState(true);
   const [dom, setDom] = React.useState('');
   function togglePlay() {
     if (playing) {
-      audio.pause();
+      stop();
     } else {
-      audio.play();
+      play();
     }
-        
-      setPlaying(!playing);
+    setPlaying(!playing);
   }
         
   let [responseData, setResponseData] = React.useState({});
