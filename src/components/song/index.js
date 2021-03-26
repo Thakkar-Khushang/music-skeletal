@@ -6,24 +6,28 @@ import HOC from '../HOC';
 import "./music.css";
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import PauseIcon from '@material-ui/icons/Pause';
+import { Pause } from "@material-ui/icons";
+import WaveSurfer from 'wavesurfer.js';
+import useSound from 'use-sound';
+import { waitForDomChange } from "@testing-library/dom";
+
 export function Song(props) {
-
-  let [playing, setPlaying] = React.useState(true);
+  let payload = []
+  let [playing, setPlaying] = React.useState(false);
   const [dom, setDom] = React.useState('');
-
   function togglePlay() {
-    let audio = document.getElementById("song");
     if (playing) {
-      audio.pause();
+      stop();
     } else {
-      audio.play();
+      play();
     }
     setPlaying(!playing);
   }
-  
+        
   let [responseData, setResponseData] = React.useState({});
   const [loading, setLoading] = React.useState(true);
-  
+  const [play, {stop}] = useSound(responseData.song_url);
+        
   React.useEffect(() => {
     axios.get(`https://iste-musicapp.azurewebsites.net/api${props.match.url}`)
     .then((response) => {
@@ -107,9 +111,9 @@ export function Song(props) {
             ?<PauseIcon fontSize="large" className="btn" id="playBtn" style={{display:"inline"}}/>
             :<PlayArrowIcon fontSize="large" className="btn" id="pauseBtn" style={{display:"inline"}}/>}
           </button>
-          <audio id="song" autoPlay>
+          {/* <audio id="song" autoPlay>
             <source src={responseData.song_url} type="audio/mp3" />
-          </audio>
+          </audio> */}
           <p id="demo"></p>
         </div>
       </div>
