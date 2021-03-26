@@ -42,6 +42,10 @@
   background-color:black;
 }
 
+#logo{
+  padding:0px 0px 0px 20px;
+}
+
 body{
   overflow-x: hidden;
   background-color:black;

@@ -10,6 +10,9 @@ export function Song(props) {
 
   let [playing, setPlaying] = React.useState(true);
   const [dom, setDom] = React.useState('');
+  const [audio,setAudio] = React.useState("");
+  let [responseData, setResponseData] = React.useState({});
+  const [loading, setLoading] = React.useState(true);
 
   function togglePlay() {
     let audio = document.getElementById("song");
@@ -21,14 +24,14 @@ export function Song(props) {
     setPlaying(!playing);
   }
   
-  let [responseData, setResponseData] = React.useState({});
-  const [loading, setLoading] = React.useState(true);
   
+
   React.useEffect(() => {
     axios.get(`https://iste-musicapp.azurewebsites.net/api${props.match.url}`)
     .then((response) => {
       const responseData = response.data;
       setResponseData(responseData);
+      setAudio(responseData.song_url);
       setLoading(false);
       
     })
@@ -36,33 +39,6 @@ export function Song(props) {
     
   }, [])
   
-
-
-  // const fetchColors = async () => {
-  //   const results = await analyze(responseData.img_url);
-  //   setDom(results[0].color);
-  //   let secondary
-  //     for (let i = 1; i < results.length; i++) {
-  //       secondary = results[i].color
-  //       if (colorContrast('rgb(255,255,255)', secondary) >= 7) {
-  //         setDom(secondary);
-  //         break;
-  //       }
-  //     }
-
-      
-    // let contrast = 'rgb(255,255,255)';
-    // for(let i = 1; i < results.length; i++) {
-    //   dom = results[i].color
-    //   if(colorContrast(dom, contrast) >= ) {
-    //     setDom(dom);
-    //     break;
-    //   }
-    // }
-
-    
-// }
-
 
   let CapWord = "";
   
@@ -107,9 +83,6 @@ export function Song(props) {
             ?<PauseIcon fontSize="large" className="btn" id="playBtn" style={{display:"inline"}}/>
             :<PlayArrowIcon fontSize="large" className="btn" id="pauseBtn" style={{display:"inline"}}/>}
           </button>
-          <audio id="song" autoPlay>
-            <source src={responseData.song_url} type="audio/mp3" />
-          </audio>
           <p id="demo"></p>
         </div>
       </div>

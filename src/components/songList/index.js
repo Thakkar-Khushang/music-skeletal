@@ -47,7 +47,7 @@ export function SongList() {
             
           <AppBar position="static">
               <Toolbar  className="navbar" disableGutters>
-              <img src="https://i.pinimg.com/originals/dd/ca/b7/ddcab749bde82b971c58cc6e80c462e4.jpg" height="50px"></img>
+              <img id="logo" src="./music.png" height="40px"></img>
               <h3 id="home">
                   Home
               </h3>
