@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef} from "react";
 import axios from 'axios';
-import colorContrast from 'color-contrast';
 import analyze from 'rgbaster';
+import colorContrast from 'color-contrast'
 import HOC from '../HOC';
 import "./music.css";
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
@@ -13,6 +13,8 @@ import useSound from 'use-sound';
 export function Song(props) {
   let payload = []
   let [playing, setPlaying] = React.useState(false);
+export function Song(props) {
+  let [playing, setPlaying] = React.useState(true);
   const [dom, setDom] = React.useState('');
   const [cont, setCont] = React.useState('');
   
@@ -67,6 +69,27 @@ export function Song(props) {
     CapWord = wordArr.map((word) => { 
       return word[0].toUpperCase() + word.substring(1); 
     }).join(" ");
+
+    var img = document.createElement('img');
+    img.setAttribute('src',responseData.img_url);
+    const x = async () => {
+      const results = await analyze(img)
+      let primary = results[0].color
+      let secondary
+      for (let i = 1; i < results.length; i++) {
+        secondary = results[i].color
+        if (colorContrast(primary, secondary) >= 7) {
+          break
+        }
+      }
+      setColors({
+        primary,
+        secondary,
+      })
+
+      // setTertiaryColor(result[2].color)
+    }
+    x()
   }
   
   if(loading){
