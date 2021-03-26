@@ -12,7 +12,6 @@ import useSound from 'use-sound';
 import { waitForDomChange } from "@testing-library/dom";
 
 export function Song(props) {
-  let payload = []
   let [playing, setPlaying] = React.useState(false);
   const [dom, setDom] = React.useState('');
   function togglePlay() {
@@ -33,7 +32,6 @@ export function Song(props) {
     .then((response) => {
       const responseData = response.data;
       setResponseData(responseData);
-      setAudio(responseData.song_url);
       setLoading(false);
       
     })
