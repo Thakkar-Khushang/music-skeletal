@@ -14,12 +14,8 @@ export function Song(props) {
   function togglePlay() {
     let audio = document.getElementById("song");
     if (playing) {
-      document.getElementById("playBtn").style.display = "inline";
-      document.getElementById("pauseBtn").style.display = "none";
       audio.pause();
     } else {
-      document.getElementById("playBtn").style.display = "none";
-      document.getElementById("pauseBtn").style.display = "inline";
       audio.play();
     }
     setPlaying(!playing);
@@ -79,7 +75,7 @@ export function Song(props) {
       let secondary
       for (let i = 1; i < results.length; i++) {
         secondary = results[i].color
-        if (colorContrast('rgb(255,255,255)', secondary) >= 4.5) {
+        if (colorContrast(secondary, 'rgb(255,255,255)') >= 7) {
           setDom(secondary);
           break;
         }
@@ -105,9 +101,11 @@ export function Song(props) {
         <div className="player-text">
           <h2>{CapWord}</h2>
           <h3>{responseData.artist}</h3>
+          
           <button onClick={togglePlay}>
-            <PlayArrowIcon fontSize="large" className="btn" id="playBtn" />
-            <PauseIcon fontSize="large" className="btn" id="pauseBtn" />
+          {playing
+            ?<PauseIcon fontSize="large" className="btn" id="playBtn" style={{display:"inline"}}/>
+            :<PlayArrowIcon fontSize="large" className="btn" id="pauseBtn" style={{display:"inline"}}/>}
           </button>
           <audio id="song" autoPlay>
             <source src={responseData.song_url} type="audio/mp3" />
