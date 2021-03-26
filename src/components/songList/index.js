@@ -61,7 +61,7 @@ export function SongList() {
           <Grid
               
               container
-              spacing={4}
+              spacing={1}
               className={classes.gridContainer}
               justify="flex-start">
         {responseData.map((item) => {

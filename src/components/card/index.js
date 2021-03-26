@@ -27,9 +27,7 @@ const useStyles = makeStyles((theme) => ({
     CapWord = wordArr.map((word) => { 
       return word[0].toUpperCase() + word.substring(1); 
     }).join(" ");
-
-    console.log(CapWord);
-
+    
     return (   
         
         <Grid item xs={6} sm={4} md={3} style={ { display: "flex", justifyContent: "space-around"} }>

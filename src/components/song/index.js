@@ -14,15 +14,14 @@ export function Song(props) {
   let payload = []
   let [playing, setPlaying] = React.useState(false);
 export function Song(props) {
+
   let [playing, setPlaying] = React.useState(true);
   const [dom, setDom] = React.useState('');
-  const [cont, setCont] = React.useState('');
-  
   function togglePlay() {
     if (playing) {
-      stop();
+      audio.pause();
     } else {
-      play();
+      audio.play();
     }
         
       setPlaying(!playing);
@@ -33,71 +32,71 @@ export function Song(props) {
   const [play, {stop}] = useSound(responseData.song_url);
         
   React.useEffect(() => {
-    // const {id} = props.match.url;
     axios.get(`https://iste-musicapp.azurewebsites.net/api${props.match.url}`)
     .then((response) => {
       const responseData = response.data;
       setResponseData(responseData);
       setLoading(false);
+      
     })
     .catch(error => console.error(`Error:${error}`));
     
   }, [])
   
-  
+
+
+  // const fetchColors = async () => {
+  //   const results = await analyze(responseData.img_url);
+  //   setDom(results[0].color);
+  //   let secondary
+  //     for (let i = 1; i < results.length; i++) {
+  //       secondary = results[i].color
+  //       if (colorContrast('rgb(255,255,255)', secondary) >= 7) {
+  //         setDom(secondary);
+  //         break;
+  //       }
+  //     }
+
+      
+    // let contrast = 'rgb(255,255,255)';
+    // for(let i = 1; i < results.length; i++) {
+    //   dom = results[i].color
+    //   if(colorContrast(dom, contrast) >= ) {
+    //     setDom(dom);
+    //     break;
+    //   }
+    // }
+
+    
+// }
+
+
   let CapWord = "";
-  if(!loading){
-    const fetchColors = async () => {
-      const results = await analyze(responseData.img_url, {ignore: ['rgb(255, 255, 255)', 'rgb(0,0,0)']});
   
-      let dom = results[0].color;
-      let white = '#ffffff'
-  
-      for(let i = 1; i < results.length; i++) {
-        let contrast = results[i].color;
-        if(colorContrast(white, contrast) >= 4.5) {
-          setCont(contrast);
+  if(loading){
+    return <img id="Loading" src="https://cdn.discordapp.com/attachments/808322477784694825/823870314835869716/giphy.gif" height="50px"/>
+  }
+  else{
+    // fetchColors();
+    analyze(responseData.img_url).then(results => {
+      let secondary
+      for (let i = 1; i < results.length; i++) {
+        secondary = results[i].color
+        if (colorContrast(secondary, 'rgb(255,255,255)') >= 7) {
+          setDom(secondary);
           break;
         }
       }
-    }
-  
-    fetchColors();
+    });
+    console.log(`The dominant color is ${dom}`);
     const Name = responseData.name;
     CapWord = "";
     const wordArr = Name.split(" ");
     CapWord = wordArr.map((word) => { 
       return word[0].toUpperCase() + word.substring(1); 
     }).join(" ");
-
-    var img = document.createElement('img');
-    img.setAttribute('src',responseData.img_url);
-    const x = async () => {
-      const results = await analyze(img)
-      let primary = results[0].color
-      let secondary
-      for (let i = 1; i < results.length; i++) {
-        secondary = results[i].color
-        if (colorContrast(primary, secondary) >= 7) {
-          break
-        }
-      }
-      setColors({
-        primary,
-        secondary,
-      })
-
-      // setTertiaryColor(result[2].color)
-    }
-    x()
-  }
-  
-  if(loading){
-    return <img id="Loading" src="https://cdn.discordapp.com/attachments/808322477784694825/823870314835869716/giphy.gif" height="50px"/>
-  }
-  else{
     return ( 
-      <div className="App">
+      <div className="App" style={{backgroundColor: dom}}>
         <span style={{position:"fixed", left:"0"}}><HOC/></span>
         <div className="music-player">
           <img
@@ -106,12 +105,14 @@ export function Song(props) {
             alt={CapWord}
           />
         </div>
-        <div className="player-text" style={{backgroundColor: cont}}>
+        <div className="player-text">
           <h2>{CapWord}</h2>
           <h3>{responseData.artist}</h3>
-          <button onClick={togglePlay}>{playing 
-          ? <PauseIcon fontSize="large" className="btn" />
-          : <PlayArrowIcon fontSize="large" className="btn" />}
+          
+          <button onClick={togglePlay}>
+          {playing
+            ?<PauseIcon fontSize="large" className="btn" id="playBtn" style={{display:"inline"}}/>
+            :<PlayArrowIcon fontSize="large" className="btn" id="pauseBtn" style={{display:"inline"}}/>}
           </button>
           {/* <audio id="song" autoPlay>
             <source src={responseData.song_url} type="audio/mp3" />
