@@ -3,7 +3,7 @@ h2{
 }
 
 h3{
-    color: rgb(88, 87, 87);
+    color: white;
 }
 
 button {
@@ -30,6 +30,8 @@ button {
 }
 
 .player-text {
+    margin: 0;
+    padding-top: 120px;
     height: calc(100vh - 100vw);
     width: 100vw;
 }

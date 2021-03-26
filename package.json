@@ -11,12 +11,14 @@
     "axios": "^0.21.1",
     "classnames": "^2.2.6",
     "color-contrast": "^1.0.0",
-    "colorthief": "^2.3.2",
+    "dominant-color": "0.0.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-native-image-colors": "^1.2.5",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "rgbaster": "^2.1.1",
+    "wavesurfer.js": "^4.6.0",
     "web-vitals": "^1.0.1"
   },
   "scripts": {
